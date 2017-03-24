@@ -1,0 +1,53 @@
+a. Registrazione utenti
+b. Login
+
+c. Richiesta nuova partita
+Un utente A inserisce i nomi degli N utenti con cui intende giocare, U1, U2, .., UN, N≥1
+(almeno un opponente) e TwistClient(A) invia tali nomi al TwistServer, usando una
+connessione TCP. TwistServer verifica che ogni Ui sia online e avvisa ogni Ui dell’invito,
+usando una callback RMI messa a disposizione da ogni TwistClient(Ui). Per ogni utente
+Ui, TwistClient(Ui) notifica l’invito al giocatore e lo memorizza in una lista locale di inviti.
+Dopo aver richiamato tutte le callback, TwistServer conferma l’inoltro dell’invito all’utente
+A, chiude la connessione TCP e richiama anche la callback di A. Se uno degli utenti non
+risulta online l’utente A riceve un messaggio di errore.
+
+d. Setup nuova partita
+Quando l’invito viene notificato al TwistClient(u), l’utente u può scegliere (in autonomia)
+di visualizzare gli inviti, usando il menu offerto da TwistClient(u). Ci possono essere vari
+inviti disponibili (arrivati in modo asincrono), però l’utente deve scegliere di rispondere a
+uno di loro. L’invito può essere accettato o rifiutato. La risposta viene inviata al server
+su una connessione TCP. Quando un invito viene accettato, gli altri vengono rimossi
+dalla lista locale del cliente.
+Se tutti gli utenti accettano l’invito, la partita può essere iniziata. Altrimenti, dopo 7
+minuti, la partita viene annullata dal server (gli utenti che hanno accettato ricevono un
+messaggio di errore).
+
+e. Avvio nuova partita
+Una volta ricevuta la risposta da tutti i giocatori, il server invia, usando le stesse
+connessioni TCP su cui ha ricevuto la risposta, le lettere per la partita. I TwistClient
+ricevono le lettere, chiudono la connessione TCP e comunicano agli utenti che il gioco è
+pronto. Quando gli utenti confermano, i TwistClient mostrano le lettere e accettano le
+parole dal giocatore per un periodo di 2 minuti. Quando i 2 minuti finiscono, TwistClient
+ferma l’input dall’utente e invia le parole al server, usando il protocollo UDP. Il server
+aspetta un massimo di 5 minuti per ricevere le parole. Se in questo tempo un utente non
+invia nessun messaggio, riceverà 0 punti per la partita.
+Ogni TwistClient può avere solo una partita attiva ad un certo momento, mentre il server
+deve essere in grado di gestire più partite in contemporanea.
+Tip: è messo a disposizione un file contenente un dizionario di parole in inglese. Per
+generare le lettere iniziali, è sufficiente scegliere una parola di 6-7 lettere e permutare le
+lettere prima di inviarle ai giocatori.
+
+f. Invio​ ​risultati partita
+Il punteggio di un giocatore viene calcolato come la somma dei punteggi per ogni parola
+trovata. Ogni parola riceve un punteggio uguale al numero di lettere utilizzate. Solo le
+parole valide ricevono un punteggio ed una parola risulta valida se usa solo le lettere a
+disposizione ed è inclusa nel dizionario.
+Tutti i giocatori di una partita sono registrati ad un canale multicast. I risultati della partita
+(il punteggio e la classifica di questa partita) vengono inviati in multicast a tutti i giocatori
+della partita.
+I punteggi vengono usati per la classifica della partita in corso, ma vengono anche
+sommati al punteggio generale dei giocatori. In questo modo, partita dopo partita, gli
+utenti accumulano dei punti, che contribuiscono alla loro classifica generale.
+
+g. Visualizzazione classifica generale
+h. Logout

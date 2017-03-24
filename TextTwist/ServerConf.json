@@ -1,0 +1,7 @@
+{
+  "AuthRMIPort": 8000,
+  "ScoreboardPort": 8002,
+  "GamePort": 8004,
+  "LoginTimeoutSec": 6,
+  "Dictionary": "dictionary.txt"
+}

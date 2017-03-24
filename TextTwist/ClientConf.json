@@ -1,0 +1,7 @@
+{
+  "ServerURL": "localhost",
+  "AuthRMIPort": 8000,
+  "ScoreboardPort": 8002, 
+  "GamePort": 8004,
+  "refreshSec": 2
+}

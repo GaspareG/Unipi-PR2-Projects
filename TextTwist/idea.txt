@@ -1,0 +1,28 @@
+==================================================================================
+-> client apre socket tcp col server
+-> invia lista username (csv) ( "token NEW us1,us2,us3" )
+<- server controlla col manager se gli utenti sono online, 
+	se no invia ERRORE ( "ERRORE" )
+	se si invia OK ( "OK" ) (genera partita col manager, crea token partita
+				chiama callback di tutti i partecipanti )
+	CHIUDE CONNESSIONE TCP
+==================================================================================
+<- Server crea nuovo thread partita
+	se uno rifiuta invia errore a tutti
+	se tutti accettano inizia partita
+	dopo 7 minuti se non tutti hanno accettato termina partita
+==================================================================================
+-> Client manda ok/no al server delle richieste di partite usando token ricevuto
+	tramite nuova connessione tcp (che non viene chiusa)
+<- Server se tutti gli utenti si sono collegati
+	carica parola casuale e invia le lettere a tutti
+	chiude le connessioni TCP
+==================================================================================
+-> Client fa partire il gioco con la GUI
+	raccoglie le parole per 2 minuti e poi le invia al server
+	tramite UDP
+<- server fa partire timer di 5 minuti
+	riceve via UDP le parole degli utenti <token, lista parole>
+<- server invia risultato partita via multicast
+==================================================================================
+
