@@ -1,2 +1,2 @@
-# Workspace
-Personal eclipse workspace
+# Unipi-Workspace
+Eclipse workspace for unipi project
